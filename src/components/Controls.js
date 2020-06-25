@@ -18,6 +18,10 @@ function Controls(props) {
   return (
     <div className="center">
       <ButtonToolbar>
+        <Button variant="success" className="mr-3" onClick={props.onShow}>
+          {" "}
+          ℹ Game Explanation
+        </Button>
         <ButtonGroup className="mr-3">
           <Button className="btn btn-default" onClick={props.playButton}>
             Play
@@ -77,10 +81,10 @@ function Controls(props) {
               <Button
                 variant="primary"
                 type="submit"
-                onClick={e => {
-                  e.preventDefault()
-                  setValue("")
-                  props.nthGeneration(Number(value))
+                onClick={(e) => {
+                  e.preventDefault();
+                  setValue("");
+                  props.nthGeneration(Number(value));
                 }}
               >
                 Submit

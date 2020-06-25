@@ -3,6 +3,7 @@ import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import { arrayClone } from "./utils";
 import "./App.css";
+import Explanation from "./components/ExplanationModal";
 
 // Why was setInterval not working as it should with functional components?
 // I need to figure that one out. The functional component code lives as a comment underneath index.js
@@ -18,6 +19,7 @@ class App extends React.Component {
       generation: 0,
       gameOn: false,
       gridFull: this.generateEmptyGrid(),
+      modalShow: false,
     };
   }
 
@@ -239,6 +241,16 @@ class App extends React.Component {
     });
   };
 
+  onShow = () => {
+    this.setState({
+      modalShow: true,
+    });
+  };
+  onHide = () => {
+    this.setState({
+      modalShow: false,
+    });
+  };
   render() {
     return (
       <div>
@@ -268,7 +280,9 @@ class App extends React.Component {
           gridSize={this.gridSize}
           pickShape={this.pickShape}
           nthGeneration={this.nthGeneration}
+          onShow={this.onShow}
         />
+        <Explanation show={this.state.modalShow} onHide={this.onHide} />
       </div>
     );
   }

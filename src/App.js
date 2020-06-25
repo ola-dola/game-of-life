@@ -37,6 +37,84 @@ class App extends React.Component {
     }
   };
 
+  pickShape = (shape) => {
+    this.clear();
+
+    let newGrid = arrayClone(this.state.gridFull);
+    const callback = (box) => {
+      box.y.forEach((z) => {
+        newGrid[box.x][z] = true;
+      });
+    };
+    switch (shape) {
+      case "1": // Glider
+        let glider = [
+          { x: 8, y: [9] },
+          { x: 9, y: [10] },
+          { x: 10, y: [8, 9, 10] },
+        ];
+        glider.forEach(callback);
+
+        this.setState({
+          gridFull: newGrid,
+        });
+        break;
+      case "2":
+        let exploder = [
+          { x: 8, y: [19, 21, 23] },
+          { x: 9, y: [19, 23] },
+          { x: 10, y: [19, 23] },
+          { x: 11, y: [19, 23] },
+          { x: 12, y: [19, 21, 23] },
+        ];
+
+        exploder.forEach(callback);
+
+        this.setState({
+          gridFull: newGrid,
+        });
+        break;
+      case "3":
+        let tenCellRow = [
+          { x: 15, y: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29] },
+        ];
+
+        tenCellRow.forEach(callback);
+        this.setState({
+          gridFull: newGrid,
+        });
+        break;
+      case "4":
+        let tumbler = [
+          { x: 9, y: [20, 21, 23, 24] },
+          { x: 10, y: [20, 21, 23, 24] },
+          { x: 11, y: [21, 23] },
+          { x: 12, y: [19, 21, 23, 25] },
+          { x: 13, y: [19, 21, 23, 25] },
+          { x: 14, y: [19, 20, 24, 25] },
+        ];
+
+        tumbler.forEach(callback);
+        this.setState({
+          gridFull: newGrid,
+        });
+        break;
+      case "5":
+        let spaceship = [
+          { x: 11, y: [26, 27, 28, 29] },
+          { x: 12, y: [25, 29] },
+          { x: 13, y: [29] },
+          { x: 14, y: [25, 28] },
+        ];
+        spaceship.forEach(callback);
+        this.setState({
+          gridFull: newGrid,
+        });
+        break;
+      default:
+        return this.clear()
+    }
+  };
   seed = () => {
     let gridCopy = arrayClone(this.state.gridFull);
     for (let i = 0; i < this.rows; i++) {
@@ -94,7 +172,7 @@ class App extends React.Component {
         this.cols = 70;
         this.rows = 50;
     }
-    this.clear()
+    this.clear();
   };
 
   play = () => {
@@ -149,6 +227,7 @@ class App extends React.Component {
           slow={this.slow}
           seed={this.seed}
           gridSize={this.gridSize}
+          pickShape={this.pickShape}
         />
         <h2>Generations: {this.state.generation}</h2>
       </div>

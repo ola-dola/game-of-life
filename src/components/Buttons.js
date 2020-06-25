@@ -10,7 +10,7 @@ import {
 function Buttons(props) {
   const handleShapeSelect = (evt) => {
     console.log(evt);
-    props.gridSize(evt);
+    props.pickShape(evt);
   };
   return (
     <div className="center">
@@ -51,10 +51,10 @@ function Buttons(props) {
         >
           <Dropdown.Item eventKey="1">Glider</Dropdown.Item>
           <Dropdown.Item eventKey="2">Exploder</Dropdown.Item>
-          <Dropdown.Item eventKey="3">Gospel Glider Gun</Dropdown.Item>
-          <Dropdown.Item eventKey="4">Ten Cell Row</Dropdown.Item>
-          <Dropdown.Item eventKey="5">Tumbler</Dropdown.Item>
-          <Dropdown.Item eventKey="6">Lightweight Spaceship</Dropdown.Item>
+          <Dropdown.Item eventKey="3">Ten Cell Row</Dropdown.Item>
+          <Dropdown.Item eventKey="4">Tumbler</Dropdown.Item>
+          <Dropdown.Item eventKey="5">Lightweight Spaceship</Dropdown.Item>
+          <Dropdown.Item eventKey="fityCent">Clear</Dropdown.Item>
         </DropdownButton>
       </ButtonToolbar>
     </div>

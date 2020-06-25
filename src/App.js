@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "./components/Grid";
-import Buttons from "./components/Buttons";
+import Controls from "./components/Controls";
 import { arrayClone } from "./utils";
 import "./App.css";
 
@@ -112,9 +112,10 @@ class App extends React.Component {
         });
         break;
       default:
-        return this.clear()
+        return this.clear();
     }
   };
+
   seed = () => {
     let gridCopy = arrayClone(this.state.gridFull);
     for (let i = 0; i < this.rows; i++) {
@@ -136,6 +137,10 @@ class App extends React.Component {
 
   pauseButton = () => {
     clearInterval(this.intervalId);
+  };
+
+  nextButton = () => {
+    this.play();
   };
 
   slow = () => {
@@ -175,6 +180,39 @@ class App extends React.Component {
     this.clear();
   };
 
+  nthGeneration = (n) => {
+    let i = 0;
+    let g = this.state.gridFull;
+    let g2 = arrayClone(this.state.gridFull);
+
+    while (i < n) {
+      for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.cols; j++) {
+          let count = 0;
+          if (i > 0) if (g[i - 1][j]) count++;
+          if (i > 0 && j > 0) if (g[i - 1][j - 1]) count++;
+          if (i > 0 && j < this.cols - 1) if (g[i - 1][j + 1]) count++;
+          if (j < this.cols - 1) if (g[i][j + 1]) count++;
+          if (j > 0) if (g[i][j - 1]) count++;
+          if (i < this.rows - 1) if (g[i + 1][j]) count++;
+          if (i < this.rows - 1 && j > 0) if (g[i + 1][j - 1]) count++;
+          if (i < this.rows - 1 && this.cols - 1) if (g[i + 1][j + 1]) count++;
+          if (g[i][j] && (count < 2 || count > 3)) g2[i][j] = false;
+          if (!g[i][j] && count === 3) g2[i][j] = true;
+        }
+      }
+
+      g = g2;
+      g2 = arrayClone(g);
+      i++;
+    }
+    this.setState({
+      gridFull: g2,
+      gameOn: true,
+      generation: this.state.generation + n,
+    });
+  };
+
   play = () => {
     let g = this.state.gridFull;
     let g2 = arrayClone(this.state.gridFull);
@@ -201,16 +239,16 @@ class App extends React.Component {
     });
   };
 
-  // componentDidMount() {
-  //   this.seed();
-  //   this.playButton();
-  // }
-
   render() {
     return (
       <div>
-        <h1>The Game of Life</h1>
-
+        <div className="top">
+          <h1>The Game of Life</h1>
+          <h3>
+            Generations:{" "}
+            <span className="generation">{this.state.generation}</span>
+          </h3>
+        </div>
         <Grid
           gridFull={this.state.gridFull}
           rows={this.rows}
@@ -219,17 +257,18 @@ class App extends React.Component {
           gameOn={this.state.gameOn}
         />
         <br />
-        <Buttons
+        <Controls
           playButton={this.playButton}
           pauseButton={this.pauseButton}
+          nextButton={this.nextButton}
           fast={this.fast}
           clear={this.clear}
           slow={this.slow}
           seed={this.seed}
           gridSize={this.gridSize}
           pickShape={this.pickShape}
+          nthGeneration={this.nthGeneration}
         />
-        <h2>Generations: {this.state.generation}</h2>
       </div>
     );
   }

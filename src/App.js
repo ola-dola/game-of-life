@@ -1,4 +1,5 @@
 import React from "react";
+import CELLS from 'vanta/dist/vanta.cells.min';
 import Grid from "./components/Grid";
 import Controls from "./components/Controls";
 import { arrayClone } from "./utils";
@@ -14,6 +15,7 @@ class App extends React.Component {
     this.speed = 100;
     this.rows = 30;
     this.cols = 50;
+    this.vantaRef = React.createRef()
 
     this.state = {
       generation: 0,
@@ -251,9 +253,21 @@ class App extends React.Component {
       modalShow: false,
     });
   };
+
+  // Lifecycle methods needed for the background animation: vanta
+  componentDidMount() {
+    this.vantaEffect = CELLS({
+      el: this.vantaRef.current
+    })
+    console.log(this.vantaRef)
+  }
+  componentWillUnmount() {
+    if (this.vantaEffect) this.vantaEffect.destroy()
+  }
+
   render() {
     return (
-      <div>
+      <div ref={this.vantaRef} style={{width: "100vw", height: "100vh"}} id="vantaRoot">
         <div className="top">
           <h1>The Game of Life</h1>
           <h3>

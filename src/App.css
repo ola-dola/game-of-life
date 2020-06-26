@@ -1,13 +1,12 @@
-body {
-  background-image: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/squares.png);
-}
-
 .top {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  color: #381b49
 }
-
+.generation {
+  color: #5a0a21;
+}
 .box {
   display: inline-block;
   border: 1px solid white;
@@ -47,7 +46,7 @@ h1,
 h2,
 h3,
 h4 {
-  color: white;
+  /* color: white; */
   margin: auto;
   text-align: center;
   width: 50%;
@@ -58,6 +57,3 @@ h4 {
   margin-top: 0px;
 }
 
-.generation {
-  color: aqua;
-}
